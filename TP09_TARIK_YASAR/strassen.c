@@ -240,10 +240,8 @@ void matmult_fast(int n,
   /* TODO: Toplama ve cikarmalar icin gecici T ve U matrisleri
    * icin yer ayirin, boyutlari sz olacak */
     
-    //Bunlari kullanmama gerek kalmadi
-
-    double T[2*2];
-    double U[2*2];
+    double *T = malloc(sizeof(sz));
+    double *U = malloc(sizeof(sz));
     
   /* TODO: A-B-C-D matrislerinin baslangic adreslerini ayarlayin
    * (Hepsi X matrisinin icerisinde gomulu) */
@@ -420,6 +418,4 @@ void matmult_fast(int n,
   /* TODO: Gecici pointerlar U ve T'yi free() edin */
 
   /* TODO: P[] dizisindeki bellek alanlarini free() edin */
-
-  //free(P);
 }
