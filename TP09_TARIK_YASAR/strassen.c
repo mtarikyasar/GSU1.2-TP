@@ -1,11 +1,3 @@
-/*
- * strassen.c
- *
- *  Created on: Apr 11, 2019
- *      Author: Merve Unlu
- */
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/time.h>

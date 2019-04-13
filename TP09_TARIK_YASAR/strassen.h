@@ -1,10 +1,3 @@
-/*
- * strassen.h
- *
- *  Created on: Apr 20, 2017
- *      Author: Merve Unlu
- */
-
 #ifndef STRASSEN_H_
 #define STRASSEN_H_
 

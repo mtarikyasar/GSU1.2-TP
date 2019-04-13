@@ -1,10 +1,3 @@
-/*
- * main.c
- *
- *  Created on: Apr 20, 2017
- *      Author: Merve Unlu
- */
-
 #include<assert.h>
 #include<stdio.h>
 #include<stdlib.h>
