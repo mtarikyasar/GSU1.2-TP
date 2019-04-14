@@ -116,8 +116,6 @@ int main(int argc, char *argv[]) {
   double *Z = malloc(sz);
   double *Zfast = malloc(sz);
 
-
-
   /* TODO: Gostericilerden birisi NULL ise bellek hatasi verip
    * programi 1 donus degeriyle sonlandirin. 
    * if kontrolunun icini doldurup yorum satirindan cikarin.

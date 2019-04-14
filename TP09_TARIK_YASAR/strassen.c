@@ -5,7 +5,6 @@
 #include <assert.h>
 #include "strassen.h"
 
-
 /* Zaman olcum fonksiyonlari */
 int timeval_subtract(struct timeval *result,
                      struct timeval *t2, struct timeval *t1) {
@@ -16,7 +15,6 @@ int timeval_subtract(struct timeval *result,
   result->tv_usec = diff % 1000000;
   return (diff < 0);
 }
-
 
 /* Verilen tek boyutlu diziyi rastgele
  * sayilarla doldurur.
@@ -46,7 +44,6 @@ void matprint(int n, int pitch, const double M[]) {
   }
 }
 
-
 /* Parametre olarak verilen iki matrisin toplamini
  * yeni bir matriste saklar.
  * Verilen her matris icin pitch degeri vardir.
@@ -70,8 +67,6 @@ void matadd(int n,
 
 }
 
-
-
 /* Parametre olarak verilen iki matrisin farkini
  * yeni bir matriste saklar.
  * Verilen her matris icin pitch degeri vardir.
@@ -92,7 +87,6 @@ void matsub(int n,
     }
   }
 }
-
 
 /* MatrisVektor toplami: S = A + b */
 void matvecadd(int n,
@@ -142,7 +136,6 @@ void mattranspose(int n,
   }
 }
 
-
 /* Parametre olarak verilen iki matris
  * carpimini geri dondurur.
  * Klasik Matris carpimi algoritmasi: C = A * B
@@ -153,6 +146,7 @@ void mattranspose(int n,
  *                 | 15 16 | Spitch=2
  * 
 */
+
 void matmult(int n,
              int Apitch, const double A[],
              int Bpitch, const double B[],
@@ -170,8 +164,6 @@ void matmult(int n,
     }
   }
 }
-
-
 
 // TODO: Alistirma 7 
 /* Parametre olarak verilen iki matris
@@ -214,159 +206,176 @@ void matmult_fast(int n,
 
   const int sz = new_n*new_n*sizeof(double);
 
-  //BURADA KAFAM COK KARISTI SOYLE YAPTIM BEN DE
-
-  //double *P[7];
+  double *P[7];
   /* TODO: 7 adet Px hesabi icin yer ayirin
-   * boyutlari sz olacak*/
-
-    double P0[2*2];  //0
-    double P1[2*2];  //1
-    double P2[2*2];  //2
-    double P3[2*2];  //3
-    double P4[2*2];  //4
-    double P5[2*2];  //5
-    double P6[2*2];  //6
-
-
+   * boyutlari sz olacak*/   
+  for (int i = 0; i < 7; i++)
+  {
+    P[i] = (double*)malloc(sizeof(sz));
+  }
+  
   /* TODO: Toplama ve cikarmalar icin gecici T ve U matrisleri
    * icin yer ayirin, boyutlari sz olacak */
     
     double *T = malloc(sizeof(sz));
     double *U = malloc(sizeof(sz));
+
+    if(T == NULL || U == NULL){
+      printf("Malloc Error!");
+    }
     
   /* TODO: A-B-C-D matrislerinin baslangic adreslerini ayarlayin
    * (Hepsi X matrisinin icerisinde gomulu) */
 
-    double A[2*2];
-    double B[2*2];
-    double C[2*2];
-    double D[2*2];
-    int newPitch = n/2;
+    const double *A = malloc(sizeof(sz));
+    const double *B = malloc(sizeof(sz));
+    const double *C = malloc(sizeof(sz));
+    const double *D = malloc(sizeof(sz));
+
+    A = X;
+    B = X+4;
+    C = X+8;
+    D = X+12;
     
-    for(int i = 0; i < newPitch; i++)
+    /* double A[new_n*new_n];
+    double B[new_n*new_n];
+    double C[new_n*new_n];
+    double D[new_n*new_n];
+    
+    for(int i = 0; i < new_n; i++)
     {
-      for(int j = 0; j < newPitch; j++)
+      for(int j = 0; j < new_n; j++)
       {
-            A[i*newPitch + j] = X[i*Xpitch + j];
-            B[i*newPitch + j] = X[i*Xpitch + j + newPitch];
+        A[i*new_n + j] = X[i*Xpitch + j];
+        B[i*new_n + j] = X[i*Xpitch + j + new_n];
        }
     }
 
     int xy = 0;
 
-    for(int i = 2; i < n; i++)
+    for(int i = new_n; i < n; i++)
     {
-      for(int j = 0; j < newPitch; j++)
+      for(int j = 0; j < new_n; j++)
       {
-        C[xy*newPitch + j] = X[i*Xpitch + j];
-        D[xy*newPitch + j] = X[i*Xpitch + newPitch + j];
+        C[xy*new_n + j] = X[i*Xpitch + j];
+        D[xy*new_n + j] = X[i*Xpitch + new_n + j];
       }
       xy++;
-    }
+    } */
 
   /* TODO: E-F-G-H matrislerinin baslangic adreslerini ayarlayin
    * (Hepsi Y matrisinin icerisinde gomulu) */
 
-    double E[2*2];
-    double F[2*2];
-    double G[2*2];
-    double H[2*2];
+   const double *E = malloc(sizeof(sz));
+   const double *F = malloc(sizeof(sz));
+   const double *G = malloc(sizeof(sz));
+   const double *H = malloc(sizeof(sz));
+
+    E = Y;
+    F = Y+4;
+    G = Y+8;
+    H = Y+12;
+
+    /*
+    double E[new_n*new_n];
+    double F[new_n*new_n];
+    double G[new_n*new_n];
+    double H[new_n*new_n];
     
-    for(int i = 0; i < newPitch; i++)
+    for(int i = 0; i < new_n; i++)
     {
-      for(int j = 0; j < newPitch; j++)
+      for(int j = 0; j < new_n; j++)
       {
-            E[i*newPitch + j] = Y[i*Ypitch + j];
-            F[i*newPitch + j] = Y[i*Ypitch + j + newPitch];
+        E[i*new_n + j] = Y[i*Ypitch + j];
+        F[i*new_n + j] = Y[i*Ypitch + j + new_n];
        }
     }
 
     int yz = 0;
 
-    for(int i = 2; i < n; i++)
+    for(int i = new_n; i < n; i++)
     {
-      for(int j = 0; j < newPitch; j++)
+      for(int j = 0; j < new_n; j++)
       {
-        G[yz*newPitch + j] = Y[i*Ypitch + j];
-        H[yz*newPitch + j] = Y[i*Ypitch + newPitch + j];
+        G[yz*new_n + j] = Y[i*Ypitch + j];
+        H[yz*new_n + j] = Y[i*Ypitch + new_n + j];
       }
       yz++;
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////
   
 
   /* TODO: P0 = A*(F - H) */
 
-  matsub(2, 2, F, 2, H, 2, T);
-  matmult(2, 2, A, 2, T, 2, P0);
+  matsub(new_n, new_n, F, new_n, H, new_n, T);
+  matmult(new_n, new_n, A, new_n, T, new_n, P[0]);
 
   /* TODO: P1 = (A + B)*H */
 
-  matadd(2, 2, A, 2, B, 2, T);
-  matmult(2, 2, T, 2, H, 2, P1);
+  matadd(new_n, new_n, A, new_n, B, new_n, T);
+  matmult(new_n, new_n, T, new_n, H, new_n, P[1]);
 
   /* TODO: P2 = (C + D)*E */
 
-  matadd(2, 2, C, 2, D, 2, T);
-  matmult(2, 2, T, 2, E, 2, P2);
-
+  matadd(new_n, new_n, C, new_n, D, new_n, T);
+  matmult(new_n, new_n, T, new_n, E, new_n, P[2]);
 
   /* TODO: P3 = D*(G - E) */
 
-  matsub(2, 2, G, 2, E, 2, T);
-  matmult(2, 2, D, 2, T, 2, P3);
+  matsub(new_n, new_n, G, new_n, E, new_n, T);
+  matmult(new_n, new_n, D, new_n, T, new_n, P[3]);
 
   /* TODO: P4 = (A + D)*(E + H) */
 
-  matadd(2, 2, A, 2, D, 2, T);
-  matadd(2, 2, E, 2, H, 2, U);
-  matmult(2, 2, T, 2, U, 2, P4);
+  matadd(new_n, new_n, A, new_n, D, new_n, T);
+  matadd(new_n, new_n, E, new_n, H, new_n, U);
+  matmult(new_n, new_n, T, new_n, U, new_n, P[4]);
 
   /* TODO: P5 = (B - D)*(G + H) */
 
-  matsub(2, 2, B, 2, D, 2, T);
-  matadd(2, 2, G, 2, H, 2, U);
-  matmult(2, 2, T, 2, U, 2, P5);
+  matsub(new_n, new_n, B, new_n, D, new_n, T);
+  matadd(new_n, new_n, G, new_n, H, new_n, U);
+  matmult(new_n, new_n, T, new_n, U, new_n, P[5]);
 
   /* TODO: P6 = (A - C)*(E + F) */
 
-  matsub(2, 2, A, 2, C, 2, T);
-  matadd(2, 2, E, 2, F, 2, U);
-  matmult(2, 2, T, 2, U, 2, P6);  
+  matsub(new_n, new_n, A, new_n, C, new_n, T);
+  matadd(new_n, new_n, E, new_n, F, new_n, U);
+  matmult(new_n, new_n, T, new_n, U, new_n, P[6]);  
 
   ////////////////////////////////////////////////////////////////////////////////
 
   /* Sonucun hesaplanmasi */
   /* TODO: Z sol ust = (P3 + P4) + (P5 - P1) */
-  double zUpperLeft[2*2];
+  double zUpperLeft[new_n*new_n];
 
-  matadd(2, 2, P3, 2, P4, 2, T);
-  matsub(2, 2, P5, 2, P1, 2, U);
-  matadd(2, 2, T, 2, U, 2, zUpperLeft);
+  matadd(new_n, new_n, P[3], new_n, P[4], new_n, T);
+  matsub(new_n, new_n, P[5], new_n, P[1], new_n, U);
+  matadd(new_n, new_n, T, new_n, U, new_n, zUpperLeft);
 
-  for(int i = 0; i < newPitch; i++)
+  for(int i = 0; i < new_n; i++)
   {
-    for(int j = 0; j < newPitch; j++)
+    for(int j = 0; j < new_n; j++)
     {
-      Z[i*Zpitch + j] = zUpperLeft[newPitch*i + j];
+      Z[i*Zpitch + j] = zUpperLeft[new_n*i + j];
     }
   }
 
   ////////////////////////////////////////////////////////////////////////////////
 
   /* TODO: Z sol alt = (P2 + P3) */
-  double zBottomLeft[2*2];
+  double zBottomLeft[new_n*new_n];
   int x = 0;
 
-  matadd(2, 2, P2, 2, P3, 2, zBottomLeft);
+  matadd(new_n, new_n, P[2], new_n, P[3], new_n, zBottomLeft);
 
-  for(int i = newPitch; i < n; i++)
+  for(int i = new_n; i < n; i++)
   {
-    for(int j = 0; j < newPitch; j++)
+    for(int j = 0; j < new_n; j++)
     {
-      Z[i*Zpitch + j] = zBottomLeft[newPitch*x + j];
+      Z[i*Zpitch + j] = zBottomLeft[new_n*x + j];
     }
     x++;
   }
@@ -374,33 +383,33 @@ void matmult_fast(int n,
   ////////////////////////////////////////////////////////////////////////////////
 
   /* TODO: Z sag ust = (P0 + P1) */
-  double zUpperRight[2*2];
+  double zUpperRight[new_n*new_n];
 
-  matadd(2, 2, P0, 2, P1, 2, zUpperRight);
+  matadd(new_n, new_n, P[0], new_n, P[1], new_n, zUpperRight);
 
-  for(int i = 0; i < newPitch; i++)
+  for(int i = 0; i < new_n; i++)
   {
-    for(int j = 0; j < newPitch; j++)
+    for(int j = 0; j < new_n; j++)
     {
-      Z[i*Zpitch + j + newPitch] = zUpperRight[newPitch*i + j];
+      Z[i*Zpitch + j + new_n] = zUpperRight[new_n*i + j];
     }
   }
 
   ////////////////////////////////////////////////////////////////////////////////
 
   /* TODO: Z sag alt = (P0 + P4) - (P2 + P6) */
-  double zBottomRight[2*2];
+  double zBottomRight[new_n*new_n];
   int y = 0;
 
-   matadd(2, 2, P0, 2, P4, 2, T);
-   matadd(2, 2, P2, 2, P6, 2, U);
-   matsub(2, 2, T, 2, U, 2, zBottomRight);
+   matadd(new_n, new_n, P[0], new_n, P[4], new_n, T);
+   matadd(new_n, new_n, P[2], new_n, P[6], new_n, U);
+   matsub(new_n, new_n, T, new_n, U, new_n, zBottomRight);
 
-   for(int i = newPitch; i < n; i++)
+   for(int i = new_n; i < n; i++)
   {
-    for(int j = 0; j < newPitch; j++)
+    for(int j = 0; j < new_n; j++)
     {
-      Z[i*Zpitch + j + newPitch] = zBottomRight[newPitch*y + j];
+      Z[i*Zpitch + j + new_n] = zBottomRight[new_n*y + j];
     }
     y++;
   }
@@ -409,5 +418,17 @@ void matmult_fast(int n,
 
   /* TODO: Gecici pointerlar U ve T'yi free() edin */
 
+  U = NULL;
+  T = NULL;
+
+  free(U); 
+  free(T); 
+
   /* TODO: P[] dizisindeki bellek alanlarini free() edin */
+    for (int i = 0; i < 7; i++)
+    {
+        P[i] = NULL;
+        free(P[i]);
+    }
 }
+
