@@ -212,6 +212,12 @@ void matmult_fast(int n,
   for (int i = 0; i < 7; i++)
   {
     P[i] = (double*)malloc(sizeof(sz));
+      
+      if (P[i] == NULL)
+      {
+        printf("Malloc Error!(P)");
+      }
+      
   }
   
   /* TODO: Toplama ve cikarmalar icin gecici T ve U matrisleri
@@ -226,18 +232,8 @@ void matmult_fast(int n,
     
   /* TODO: A-B-C-D matrislerinin baslangic adreslerini ayarlayin
    * (Hepsi X matrisinin icerisinde gomulu) */
-
-    const double *A = malloc(sizeof(sz));
-    const double *B = malloc(sizeof(sz));
-    const double *C = malloc(sizeof(sz));
-    const double *D = malloc(sizeof(sz));
-
-    A = X;
-    B = X+4;
-    C = X+8;
-    D = X+12;
     
-    /* double A[new_n*new_n];
+    double A[new_n*new_n];
     double B[new_n*new_n];
     double C[new_n*new_n];
     double D[new_n*new_n];
@@ -261,22 +257,11 @@ void matmult_fast(int n,
         D[xy*new_n + j] = X[i*Xpitch + new_n + j];
       }
       xy++;
-    } */
+    }
 
   /* TODO: E-F-G-H matrislerinin baslangic adreslerini ayarlayin
    * (Hepsi Y matrisinin icerisinde gomulu) */
-
-   const double *E = malloc(sizeof(sz));
-   const double *F = malloc(sizeof(sz));
-   const double *G = malloc(sizeof(sz));
-   const double *H = malloc(sizeof(sz));
-
-    E = Y;
-    F = Y+4;
-    G = Y+8;
-    H = Y+12;
-
-    /*
+  
     double E[new_n*new_n];
     double F[new_n*new_n];
     double G[new_n*new_n];
@@ -302,10 +287,8 @@ void matmult_fast(int n,
       }
       yz++;
     }
-    */
 
     ////////////////////////////////////////////////////////////////////////////////
-  
 
   /* TODO: P0 = A*(F - H) */
 
