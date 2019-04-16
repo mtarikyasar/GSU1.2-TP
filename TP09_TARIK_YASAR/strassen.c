@@ -154,6 +154,14 @@ void matmult(int n,
   // TODO: Alistirma 6
   
   for (int i = 0; i < n; i++)
+  {
+  	for (int j = 0; j < n; j++)
+  	{
+  		C[i*Cpitch + j] = 0;
+  	}
+  }
+  
+  for (int i = 0; i < n; i++)
   { 
     for (int j = 0; j < n; j++)
     {
@@ -204,15 +212,15 @@ void matmult_fast(int n,
   /* Bu cagridaki alt-matrislerin boylari n/2 olacak */
   const int new_n = n/2;
 
-  const int sz = new_n*new_n*sizeof(double);
+  const size_t sz = new_n*new_n*sizeof(double);
 
   double *P[7];
   /* TODO: 7 adet Px hesabi icin yer ayirin
    * boyutlari sz olacak*/   
   for (int i = 0; i < 7; i++)
   {
-    P[i] = (double*)malloc(sizeof(sz));
-      
+    P[i] = (double*)malloc(sz);
+   
       if (P[i] == NULL)
       {
         printf("Malloc Error!(P)");
@@ -223,8 +231,8 @@ void matmult_fast(int n,
   /* TODO: Toplama ve cikarmalar icin gecici T ve U matrisleri
    * icin yer ayirin, boyutlari sz olacak */
     
-    double *T = malloc(sizeof(sz));
-    double *U = malloc(sizeof(sz));
+    double *T = malloc(sz);
+    double *U = malloc(sz);
 
     if(T == NULL || U == NULL){
       printf("Malloc Error!");
@@ -237,7 +245,7 @@ void matmult_fast(int n,
     double B[new_n*new_n];
     double C[new_n*new_n];
     double D[new_n*new_n];
-    
+
     for(int i = 0; i < new_n; i++)
     {
       for(int j = 0; j < new_n; j++)
@@ -401,16 +409,12 @@ void matmult_fast(int n,
 
   /* TODO: Gecici pointerlar U ve T'yi free() edin */
 
-  U = NULL;
-  T = NULL;
-
   free(U); 
   free(T); 
 
   /* TODO: P[] dizisindeki bellek alanlarini free() edin */
     for (int i = 0; i < 7; i++)
     {
-        P[i] = NULL;
         free(P[i]);
     }
 }
