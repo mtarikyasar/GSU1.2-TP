@@ -160,7 +160,7 @@ void matmult(int n,
       for (int w = 0; w < n; w++)
       {
         C[i*Cpitch + j] += (A[w + i*Apitch]*B[w*Bpitch + j]);
-       }
+      }
     }
   }
 }
