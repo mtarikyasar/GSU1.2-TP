@@ -255,16 +255,16 @@ void matmult_fast(int n,
        }
     }
 
-    int xy = 0;
+    int ctr = 0;
 
     for(int i = new_n; i < n; i++)
     {
       for(int j = 0; j < new_n; j++)
       {
-        C[xy*new_n + j] = X[i*Xpitch + j];
-        D[xy*new_n + j] = X[i*Xpitch + new_n + j];
+        C[ctr*new_n + j] = X[i*Xpitch + j];
+        D[ctr*new_n + j] = X[i*Xpitch + new_n + j];
       }
-      xy++;
+      ctr++;
     }
 
   /* TODO: E-F-G-H matrislerinin baslangic adreslerini ayarlayin
@@ -284,16 +284,16 @@ void matmult_fast(int n,
        }
     }
 
-    int yz = 0;
+    ctr = 0;
 
     for(int i = new_n; i < n; i++)
     {
       for(int j = 0; j < new_n; j++)
       {
-        G[yz*new_n + j] = Y[i*Ypitch + j];
-        H[yz*new_n + j] = Y[i*Ypitch + new_n + j];
+        G[ctr*new_n + j] = Y[i*Ypitch + j];
+        H[ctr*new_n + j] = Y[i*Ypitch + new_n + j];
       }
-      yz++;
+      ctr++;
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -301,40 +301,40 @@ void matmult_fast(int n,
   /* TODO: P0 = A*(F - H) */
 
   matsub(new_n, new_n, F, new_n, H, new_n, T);
-  matmult(new_n, new_n, A, new_n, T, new_n, P[0]);
+  matmult_fast(new_n, new_n, A, new_n, T, new_n, P[0], min_mat_recurse);
 
   /* TODO: P1 = (A + B)*H */
 
   matadd(new_n, new_n, A, new_n, B, new_n, T);
-  matmult(new_n, new_n, T, new_n, H, new_n, P[1]);
+  matmult_fast(new_n, new_n, T, new_n, H, new_n, P[1], min_mat_recurse);
 
   /* TODO: P2 = (C + D)*E */
 
   matadd(new_n, new_n, C, new_n, D, new_n, T);
-  matmult(new_n, new_n, T, new_n, E, new_n, P[2]);
+  matmult_fast(new_n, new_n, T, new_n, E, new_n, P[2], min_mat_recurse);
 
   /* TODO: P3 = D*(G - E) */
 
   matsub(new_n, new_n, G, new_n, E, new_n, T);
-  matmult(new_n, new_n, D, new_n, T, new_n, P[3]);
+  matmult_fast(new_n, new_n, D, new_n, T, new_n, P[3], min_mat_recurse);
 
   /* TODO: P4 = (A + D)*(E + H) */
 
   matadd(new_n, new_n, A, new_n, D, new_n, T);
   matadd(new_n, new_n, E, new_n, H, new_n, U);
-  matmult(new_n, new_n, T, new_n, U, new_n, P[4]);
+  matmult_fast(new_n, new_n, T, new_n, U, new_n, P[4], min_mat_recurse);
 
   /* TODO: P5 = (B - D)*(G + H) */
 
   matsub(new_n, new_n, B, new_n, D, new_n, T);
   matadd(new_n, new_n, G, new_n, H, new_n, U);
-  matmult(new_n, new_n, T, new_n, U, new_n, P[5]);
+  matmult_fast(new_n, new_n, T, new_n, U, new_n, P[5], min_mat_recurse);
 
   /* TODO: P6 = (A - C)*(E + F) */
 
   matsub(new_n, new_n, A, new_n, C, new_n, T);
   matadd(new_n, new_n, E, new_n, F, new_n, U);
-  matmult(new_n, new_n, T, new_n, U, new_n, P[6]);  
+  matmult_fast(new_n, new_n, T, new_n, U, new_n, P[6], min_mat_recurse);  
 
   ////////////////////////////////////////////////////////////////////////////////
 
@@ -358,7 +358,8 @@ void matmult_fast(int n,
 
   /* TODO: Z sol alt = (P2 + P3) */
   double zBottomLeft[new_n*new_n];
-  int x = 0;
+  
+  ctr = 0;
 
   matadd(new_n, new_n, P[2], new_n, P[3], new_n, zBottomLeft);
 
@@ -366,9 +367,9 @@ void matmult_fast(int n,
   {
     for(int j = 0; j < new_n; j++)
     {
-      Z[i*Zpitch + j] = zBottomLeft[new_n*x + j];
+      Z[i*Zpitch + j] = zBottomLeft[new_n*ctr + j];
     }
-    x++;
+    ctr++;
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -390,7 +391,7 @@ void matmult_fast(int n,
 
   /* TODO: Z sag alt = (P0 + P4) - (P2 + P6) */
   double zBottomRight[new_n*new_n];
-  int y = 0;
+  ctr = 0;
 
    matadd(new_n, new_n, P[0], new_n, P[4], new_n, T);
    matadd(new_n, new_n, P[2], new_n, P[6], new_n, U);
@@ -400,9 +401,9 @@ void matmult_fast(int n,
   {
     for(int j = 0; j < new_n; j++)
     {
-      Z[i*Zpitch + j + new_n] = zBottomRight[new_n*y + j];
+      Z[i*Zpitch + j + new_n] = zBottomRight[new_n*ctr + j];
     }
-    y++;
+    ctr++;
   }
 
    ////////////////////////////////////////////////////////////////////////////////
