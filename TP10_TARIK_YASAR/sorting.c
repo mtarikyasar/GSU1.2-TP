@@ -88,6 +88,7 @@ void bubble_sort(int* arritem,int size){
     Sonuc: Insertion Sort daha hizli.
 
     Eger hepsine sıralı dizi verirsem de sonuclar su sekilde degisiyor:
+    
         InsertionSort time:	0.000068
         SelectionSort time:	0.356548
         BubbleSort time:	0.000043

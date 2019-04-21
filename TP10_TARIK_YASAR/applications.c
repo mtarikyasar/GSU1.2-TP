@@ -55,6 +55,8 @@ int find_maxsum_elements_unsorted(int* arritem,int size){
 int find_maxsum_elements_sorted(int* arritem,int size){
     int maxsum;
     // TODO
+	insertion_sort(arritem, size);
+	
 	int i = 0;
 	int max1, max2;
 
@@ -83,16 +85,21 @@ int find_maxsum_elements_sorted(int* arritem,int size){
 int find_mode_element(int* arritem,int size){
 	int mode;
 	// TODO
-	int *ctr;
-	
-	for (int i = 0; i < size-1; i++)
+	int i, maxCount = 0, count = 0;
+
+	insertion_sort(arritem, size);
+	for(i = 0; i < size; i++)
 	{
-		for (int j = 0; j < size-1; j++)
-		{
-			if (arritem[i] == arritem[j])
-			{
-				ctr[i] += 1;
+		if(arritem[i] == arritem[i+1]) {
+			count++;
+		}
+
+		else{
+			if(maxCount < count) {
+				maxCount = count;
+				mode = arritem[i];
 			}
+			count = 0;
 		}
 	}
 
@@ -140,5 +147,5 @@ void minimum_k_elements(int* arritem,int size,int k,int arrRes[k]){
  */
 void remove_duplications(int* arritem,int size,int* dest){
  //TODO
-}
 
+}

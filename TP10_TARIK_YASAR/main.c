@@ -84,11 +84,9 @@ int main(int argc,char* argv[]){
 	printf("SelectionSort time:\t%lf\n", time1);
 	printf("BubbleSort time:\t%lf\n", time2);
 
-	printf("%d\n", find_maxsum_elements_unsorted(arrEx, 20));
+	printf("MaxUnsorted: %d\n", find_maxsum_elements_unsorted(arrEx, 20));
 
-	insertion_sort(arrEx, 20);
-
-	printf("%d\n", find_maxsum_elements_sorted(arrEx, 20));
+	printf("MaxSorted: %d\n", find_maxsum_elements_sorted(arrEx, 20));
 
 	// Sirali dizi ile maksimum testi
 			//assert(find_maxsum_elements_sorted(arrEx1,SIZE)==146);
@@ -98,11 +96,15 @@ int main(int argc,char* argv[]){
 	// Mod elemani bulan fonksiyon testi
 	int arrMode[] = {3,4,6,1,3,4,3,1,3,6};
 			//assert(find_mode_element(arrMode,10)==3);
+	int mode = find_mode_element(arrMode, 10);
+
+	printf("Mode: %d\n", mode);
 
 	// minimum 5 eleman testi
 	int arrRes[] = {0,0,0,0,0};
 	int arrEx5[] = {3,4,6,1,8,12,58,0,2,55,88,9,23,5,34,15,19,7,43,10};
 	minimum_k_elements(arrEx5,SIZE,5,arrRes);
+
 	for(i=0;i<5;i++){
 		printf("%d \n", arrRes[i]);
 	}
