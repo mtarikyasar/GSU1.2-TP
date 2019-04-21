@@ -23,9 +23,26 @@ int is_array_sorted(int* arritem,int size){
  * Ornek: dizi = {4,5,8,2,10}
  *        sonuce = 18
  */
-int find_maxsum_elements_sorted(int* arritem,int size){
+int find_maxsum_elements_unsorted(int* arritem,int size){
     int maxsum;
     // TODO
+	int i;
+	int max1, max2;
+
+	max1 = arritem[0];
+    for (i = 0; i < size; i++) {
+        if (arritem[i] >= max1)
+            max1 = arritem[i];
+    }
+
+	max2 =arritem[0];
+	for (i = 0; i < size; i++) {
+        if (arritem[i] >= max2 && max1 != arritem[i])
+            max2 = arritem[i];
+    }
+
+	maxsum = max1 + max2;
+	
 	return maxsum;
 }
 
@@ -35,9 +52,25 @@ int find_maxsum_elements_sorted(int* arritem,int size){
  * Ornek: dizi = {2,4,5,8,10}
  *        sonuce = 18
  */
-int find_maxsum_elements_unsorted(int* arritem,int size){
+int find_maxsum_elements_sorted(int* arritem,int size){
     int maxsum;
     // TODO
+	int i = 0;
+	int max1, max2;
+
+	max1 = arritem[size-1];
+	max2 = arritem[0];
+	
+	for (i = size-1; i >= 0; i--)
+	{
+		if (arritem[i] > max2 && arritem[i] != max1)
+		{
+			max2 = arritem[i];
+		}
+	}
+	
+	maxsum = max1 + max2;
+
 	return maxsum;
 }
 
@@ -50,6 +83,19 @@ int find_maxsum_elements_unsorted(int* arritem,int size){
 int find_mode_element(int* arritem,int size){
 	int mode;
 	// TODO
+	int *ctr;
+	
+	for (int i = 0; i < size-1; i++)
+	{
+		for (int j = 0; j < size-1; j++)
+		{
+			if (arritem[i] == arritem[j])
+			{
+				ctr[i] += 1;
+			}
+		}
+	}
+
 	return mode;
 }
 
@@ -65,6 +111,21 @@ int find_mode_element(int* arritem,int size){
  */
 void minimum_k_elements(int* arritem,int size,int k,int arrRes[k]){
  // TODO
+
+	int ctr = 0;
+
+	for (int i = 0; i < size; i++)
+ 	{
+		 if (arritem[i] < k)
+	 	 {
+		 arrRes[ctr] = arritem[i];
+		 ctr++;
+	 	 }
+		 if (ctr == k)
+		 {
+			 return;
+		 }
+	 }
 }
 
 /*

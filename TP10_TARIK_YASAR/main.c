@@ -5,13 +5,12 @@
  *      Author: Merve Unlu
  */
 
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<assert.h>
 #include<time.h>
 #include"sorting.h"
-#define SIZE 20
+#define SIZE 200
 
 /*
  * Rastgele dizi elemanlari uretir.
@@ -42,15 +41,9 @@ int main(int argc,char* argv[]){
 	//assert(is_array_sorted(arrRand,SIZE));
 	random_array(arrRand,SIZE);
 	
-	for(int x = 0; x < SIZE; x++){
-		printf("%d, ", arrRand[x]);
-	}
 	selection_sort(arrRand,SIZE);
-	printf("\n///////////////////////////\n");
-	for(int x = 0; x < SIZE; x++){
-		printf("%d, ", arrRand[x]);
-	}
-	bubble_sort(arrEx1,SIZE);
+
+	bubble_sort(arrEx1,20);
 
 	// TODO: Algoritmalar ayni dizi verildiginde
 	// nasil bir performans sergiliyor?
@@ -91,32 +84,35 @@ int main(int argc,char* argv[]){
 	printf("SelectionSort time:\t%lf\n", time1);
 	printf("BubbleSort time:\t%lf\n", time2);
 
+	printf("%d\n", find_maxsum_elements_unsorted(arrEx, 20));
 
+	insertion_sort(arrEx, 20);
 
+	printf("%d\n", find_maxsum_elements_sorted(arrEx, 20));
 
 	// Sirali dizi ile maksimum testi
-	assert(find_maxsum_elements_sorted(arrEx1,SIZE)==146);
+			//assert(find_maxsum_elements_sorted(arrEx1,SIZE)==146);
 	// Sirasiz dizi ile maksimum testi
-	assert(find_maxsum_elements_unsorted(arrEx,SIZE)==146);
+			//assert(find_maxsum_elements_unsorted(arrEx,SIZE)==146);
 
 	// Mod elemani bulan fonksiyon testi
 	int arrMode[] = {3,4,6,1,3,4,3,1,3,6};
-	assert(find_mode_element(arrMode,10)==3);
+			//assert(find_mode_element(arrMode,10)==3);
 
 	// minimum 5 eleman testi
 	int arrRes[] = {0,0,0,0,0};
 	int arrEx5[] = {3,4,6,1,8,12,58,0,2,55,88,9,23,5,34,15,19,7,43,10};
 	minimum_k_elements(arrEx5,SIZE,5,arrRes);
 	for(i=0;i<5;i++){
-		assert(arrRes[i]==arrEx5[SIZE-1-i]);
+		printf("%d \n", arrRes[i]);
 	}
 
 	//remove_duplications testi
 	int arrDup[] = {3,4,6,1,3,2,3,1,3,6};
 	int* dest;
-	remove_duplications(arrDup,10,dest);
+	//remove_duplications(arrDup,10,dest);
 	for(i=1;i<=5;i++){
-		assert(dest[i-1]!=dest[i]);
+		//assert(dest[i-1]!=dest[i]);
 	}
 
 	return 0;

@@ -78,3 +78,23 @@ void bubble_sort(int* arritem,int size){
         }
     }
 }
+
+/*  Arraylerin boyutlarini 20000'e cikardigimde aldigim sonuclar su sekilde:
+
+        InsertionSort time:	0.226468
+        SelectionSort time:	0.355826
+        BubbleSort time:	1.355838
+
+    Sonuc: Insertion Sort daha hizli.
+
+    Eger hepsine sıralı dizi verirsem de sonuclar su sekilde degisiyor:
+        InsertionSort time:	0.000068
+        SelectionSort time:	0.356548
+        BubbleSort time:	0.000043
+
+    Sirali dizi verildiginde selection sort'un suresi degismezken insertion sort
+    ve bubble sort'un suresi epey kısalmakta.
+    Bu sartlar altinda ise
+
+    Sonuc: Bubble Sort daha hızlı.
+    */
